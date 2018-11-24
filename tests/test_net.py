@@ -8,6 +8,19 @@ from subprocess import (
 import pytest
 
 
+def parser(regex):
+    def decorator(func):
+        def parse_item(standard_out):
+            m = re.search(regex, standard_out)
+            if not m:
+                raise ValueError
+            item = m.group(0)
+            assert item
+            return item
+        return parse_item
+    return decorator
+
+
 class Wallet:
     def __init__(self, private_key, public_key, address):
         self.skey = private_key
@@ -15,31 +28,19 @@ class Wallet:
         self.address = address
 
     @staticmethod
-    def parse_skey(standard_out):
-        m = re.search(r'(?<=Private key: )\w+', standard_out)
-        if not m:
-            raise ValueError
-        skey = m.group(0)
-        assert skey
-        return skey
+    @parser(r'(?<=Private key: )\w+')
+    def parse_skey():
+        pass
 
     @staticmethod
-    def parse_pkey(standard_out):
-        m = re.search(r'(?<=Public key:\s{2})\w+', standard_out)
-        if not m:
-            raise ValueError
-        pkey = m.group(0)
-        assert pkey
-        return pkey
+    @parser(r'(?<=Public key:\s{2})\w+')
+    def parse_pkey():
+        pass
 
     @staticmethod
-    def parse_addr(standard_out):
-        m = re.search(r'(?<=Address:\s{5})\w+', standard_out)
-        if not m:
-            raise ValueError
-        addr = m.group(0)
-        assert addr
-        return addr
+    @parser(r'(?<=Address:\s{5})\w+')
+    def parse_addr():
+        pass
 
 
 @pytest.fixture
