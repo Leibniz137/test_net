@@ -43,7 +43,7 @@ class Wallet:
         pass
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def wallet():
     create_wallet_cmd = shlex.split('python ethereum-generate-wallet/ethereum-wallet-generator.py')
     proc = run(
@@ -59,7 +59,7 @@ def wallet():
     yield Wallet(private_key, public_key, address)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def secret(request):
     path = request.config.getoption('--secret-file')
     if not path:
@@ -70,7 +70,7 @@ def secret(request):
     yield text
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def testnet(wallet, secret):
     release = 'test-net'
     cmdstr = (
