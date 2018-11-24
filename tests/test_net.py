@@ -66,7 +66,6 @@ def secret(request):
         raise ValueError("secret required to initialize testnet: use --secret-file")
     with open(path) as fp:
         text = fp.read().strip()
-    import pdb; pdb.set_trace()
     yield text
 
 
