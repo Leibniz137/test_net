@@ -72,7 +72,24 @@ def secret(request):
 
 @pytest.fixture
 def testnet(wallet, secret):
+    release = 'test-net'
+    cmdstr = (
+        "helm install --name {release}"
+        " --set geth.account.address='{address}'"
+        " --set geth.account.privateKey='{private_key}'"
+        " --set geth.account.secret='{secret}'"
+        " charts/stable/ethereum"
+    ).format(
+        release=release,
+        secret=secret,
+        address=wallet.addr,
+        private_key=wallet.pkey,
+    )
+    helm_install_cmd = shlex.split(cmdstr)
+    run(helm_install_cmd, check=True)
     yield
+    helm_delete_cmd = shlex.split(f'helm delete {release}')
+    run(helm_delete_cmd)
 
 
 def test_ing(testnet):

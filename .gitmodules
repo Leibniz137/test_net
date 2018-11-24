@@ -1,3 +1,6 @@
 [submodule "tests/ethereum-generate-wallet"]
 	path = tests/ethereum-generate-wallet
 	url = https://github.com/vkobel/ethereum-generate-wallet
+[submodule "tests/charts"]
+	path = tests/charts
+	url = git@github.com:helm/charts.git
