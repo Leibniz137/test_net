@@ -1,3 +1,0 @@
-[submodule "tests/ethereum-generate-wallet"]
-	path = tests/ethereum-generate-wallet
-	url = https://github.com/vkobel/ethereum-generate-wallet
