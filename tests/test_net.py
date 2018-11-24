@@ -25,7 +25,7 @@ class Wallet:
     def __init__(self, private_key, public_key, address):
         self.skey = private_key
         self.pkey = public_key
-        self.address = address
+        self.addr = address
 
     @staticmethod
     @parser(r'(?<=Private key: )\w+')
